@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cómo hacer tu portfolio — BSOC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Familjen+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:     #111010;
+      --paper:   #f4f1eb;
+      --warm:    #e8e3d8;
+      --accent:  #c8390f;
+      --muted:   #8c8680;
+      --border:  #d5cfc5;
+      --dark:    #1a1917;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'Familjen Grotesk', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .site-header {
+      padding: 3.5rem 7vw 3rem;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: end;
+    }
+
+    .eyebrow {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .eyebrow::before {
+      content: '';
+      width: 1.8rem;
+      height: 1px;
+      background: var(--accent);
+      display: inline-block;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 6.5vw, 5.5rem);
+      font-weight: 700;
+      line-height: 0.93;
+      letter-spacing: -0.02em;
+    }
+
+    h1 em { font-style: italic; color: var(--accent); }
+
+    .header-sub {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.75;
+      max-width: 380px;
+      align-self: end;
+    }
+
+    .page-nav {
+      padding: 1.2rem 7vw;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    .page-nav a {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .page-nav a:hover { color: var(--accent); }
+
+    .nav-sep { width: 3px; height: 3px; border-radius: 50%; background: var(--border); }
+
+    .section {
+      padding: 5rem 7vw;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1.5rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .section-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 4.5rem;
+      font-weight: 700;
+      color: var(--border);
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .section-title-wrap h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.5rem, 2.8vw, 2.1rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+    }
+
+    .section-title-wrap p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-top: 0.4rem;
+    }
+
+    .tips-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .tip {
+      background: var(--paper);
+      padding: 2.8rem 2.5rem;
+      transition: background 0.3s;
+    }
+
+    .tip:hover { background: var(--warm); }
+
+    .tip-n {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      margin-bottom: 1.2rem;
+      display: block;
+    }
+
+    .tip h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 1rem;
+      letter-spacing: -0.01em;
+    }
+
+    .tip p { font-size: 0.88rem; color: #5a5550; line-height: 1.75; }
+
+    .what-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 3rem 5rem;
+    }
+
+    .what-item-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .what-item-num::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    .what-item h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 0.9rem;
+      letter-spacing: -0.01em;
+    }
+
+    .what-item p { font-size: 0.88rem; color: #5a5550; line-height: 1.75; }
+
+    .platforms-section { background: var(--dark); color: var(--paper); }
+    .platforms-section .section-num  { color: #2a2925; }
+    .platforms-section .section-title-wrap h2 { color: var(--paper); }
+    .platforms-section .section-title-wrap p  { color: #6a6560; }
+
+    .platforms-intro { max-width: 560px; margin-bottom: 3rem; }
+    .platforms-intro p { font-size: 0.92rem; color: #8a8480; line-height: 1.75; }
+
+    .accordion { border-top: 1px solid #252320; }
+    .acc-item { border-bottom: 1px solid #252320; }
+
+    .acc-trigger {
+      width: 100%;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 1.6rem 0;
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      align-items: center;
+      gap: 2rem;
+      text-align: left;
+    }
+
+    .acc-trigger:hover .acc-name { color: var(--accent); }
+
+    .acc-left { display: flex; align-items: center; gap: 1.4rem; }
+
+    .acc-badge {
+      font-size: 0.58rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.22rem 0.55rem;
+      border-radius: 2px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .badge-free  { background: #0d2a0d; color: #5fad5f; }
+    .badge-trial { background: #2a1f08; color: #c8903a; }
+    .badge-cc    { background: #0d1a2a; color: #5f8fad; }
+
+    .acc-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--paper);
+      letter-spacing: -0.01em;
+      transition: color 0.2s;
+    }
+
+    .acc-url { font-size: 0.72rem; color: #4a4540; letter-spacing: 0.05em; }
+
+    .acc-icon {
+      width: 28px; height: 28px;
+      border: 1px solid #2a2925;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.35s ease, border-color 0.2s;
+    }
+
+    .acc-icon svg {
+      width: 10px; height: 10px;
+      fill: none;
+      stroke: #6a6560;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: stroke 0.2s;
+    }
+
+    .acc-item.open .acc-icon { transform: rotate(45deg); border-color: var(--accent); }
+    .acc-item.open .acc-icon svg { stroke: var(--accent); }
+
+    .acc-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.4s ease; }
+    .acc-item.open .acc-body { grid-template-rows: 1fr; }
+    .acc-inner { overflow: hidden; }
+
+    .acc-content {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 2.5rem;
+      padding: 0 0 2.5rem;
+    }
+
+    .acc-desc { font-size: 0.88rem; color: #9a9288; line-height: 1.8; }
+
+    .acc-desc a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 1.2rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    .acc-desc a:hover { opacity: 0.7; }
+    .acc-desc a::after { content: '↗'; }
+
+    .pc-label {
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+
+    .pros-block .pc-label { color: #5fad5f; }
+    .cons-block .pc-label { color: #ad6060; }
+
+    .pc-list { list-style: none; display: flex; flex-direction: column; gap: 0.45rem; }
+
+    .pc-list li {
+      font-size: 0.8rem;
+      color: #7a7268;
+      padding-left: 1rem;
+      position: relative;
+      line-height: 1.5;
+    }
+
+    .pc-list li::before { content: '—'; position: absolute; left: 0; font-size: 0.65rem; }
+
+    .examples-intro { max-width: 520px; margin-bottom: 3.5rem; }
+    .examples-intro p { font-size: 0.9rem; color: var(--muted); line-height: 1.75; margin-top: 0.5rem; }
+
+    .examples-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .ex-card {
+      background: var(--paper);
+      padding: 2rem 1.8rem 1.8rem;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      transition: background 0.25s;
+      position: relative;
+    }
+
+    .ex-card:hover { background: var(--warm); }
+
+    .ex-arrow {
+      position: absolute;
+      top: 1.4rem; right: 1.4rem;
+      font-size: 0.85rem;
+      color: var(--border);
+      transition: color 0.25s, transform 0.25s;
+    }
+
+    .ex-card:hover .ex-arrow { color: var(--accent); transform: translate(2px, -2px); }
+
+    .ex-platform {
+      font-size: 0.58rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.6rem;
+    }
+
+    .ex-name { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--ink); line-height: 1.2; }
+    .ex-role { font-size: 0.75rem; color: var(--muted); margin-top: 0.1rem; }
+
+    footer {
+      padding: 2rem 7vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--dark);
+    }
+
+    .footer-txt { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: #3a3830; }
+
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.55s ease, transform 0.55s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 960px) {
+      .site-header { grid-template-columns: 1fr; }
+      .acc-content { grid-template-columns: 1fr 1fr; }
+      .acc-content .acc-desc { grid-column: 1 / -1; }
+      .examples-grid { grid-template-columns: repeat(2, 1fr); }
+      .what-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    }
+
+    @media (max-width: 600px) {
+      .tips-grid { grid-template-columns: 1fr; }
+      .examples-grid { grid-template-columns: repeat(2, 1fr); }
+      .acc-content { grid-template-columns: 1fr; }
+      .acc-left { flex-wrap: wrap; }
+      .page-nav { gap: 1.2rem; flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">Barcelona School of Creativity</p>
+      <h1>Tu<br>port<em>folio.</em><br>Empieza<br>aquí.</h1>
+    </div>
+    <p class="header-sub">Todo lo que necesitas saber antes de elegir plataforma, subir tu primer proyecto y presentarte al mundo.</p>
+  </header>
+
+  <nav class="page-nav">
+    <a href="#tips">Antes de empezar</a>
+    <span class="nav-sep"></span>
+    <a href="#what">Qué poner</a>
+    <span class="nav-sep"></span>
+    <a href="#platforms">Plataformas</a>
+    <span class="nav-sep"></span>
+    <a href="#examples">Referentes</a>
+  </nav>
+
+
+  <!-- ══ 01 — TIPS ══ -->
+  <section class="section" id="tips">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <div class="section-title-wrap">
+        <h2>Antes de empezar</h2>
+        <p>Cuatro ideas que marcan la diferencia entre un portfolio y un buen portfolio.</p>
+      </div>
+    </div>
+
+    <div class="tips-grid">
+      <div class="tip reveal">
+        <span class="tip-n">01</span>
+        <h3>Menos trabajos, más criterio.</h3>
+        <p>Un portfolio no es un archivo. Es una selección. Cinco piezas en las que crees de verdad dicen más de ti que veinte piezas mediocres. Antes de subir algo, hazte esta pregunta: ¿este trabajo me representa o simplemente rellena espacio?</p>
+      </div>
+      <div class="tip reveal" style="transition-delay:.08s">
+        <span class="tip-n">02</span>
+        <h3>El diseño de tu portfolio también es un trabajo tuyo.</h3>
+        <p>Cómo presentas tu trabajo dice tanto como el trabajo en sí. La tipografía, el ritmo visual, la forma de nombrar los proyectos, el tono de tu bio: todo comunica. Un portfolio descuidado en su forma hace dudar del criterio de quien lo firma.</p>
+      </div>
+      <div class="tip reveal" style="transition-delay:.16s">
+        <span class="tip-n">03</span>
+        <h3>¿Cuál ha sido tu papel?</h3>
+        <p>En cada pieza, deja claro cuál fue tu rol. No pongas simplemente el resultado final. Explica si hiciste la dirección de arte, los diseños, si la idea creativa y la conceptualización es tuya o salió en el equipo, si desarrollaste los titulares y los copies... Una persona encargada de la dirección creativa en una agencia o estudio, no busca solo campañas bonitas: busca si eres el perfil adecuado.</p>
+      </div>
+      <div class="tip reveal" style="transition-delay:.24s">
+        <span class="tip-n">04</span>
+        <h3>Tu portfolio nunca está terminado.</h3>
+        <p>No esperes a tener el portfolio perfecto para mostrarlo. Muéstralo, recibe feedback, mejóralo. Los mejores portfolios son los que evolucionan con quien los firma. Y con el tiempo, como el buen vino, cada vez será mejor.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══ 02 — QUÉ PONER ══ -->
+  <section class="section" id="what">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <div class="section-title-wrap">
+        <h2>Qué poner en cada proyecto</h2>
+        <p>La estructura que hace que un trabajo se entienda, se valore y se recuerde.</p>
+      </div>
+    </div>
+
+    <div class="what-grid">
+      <div class="what-item reveal">
+        <div class="what-item-num">01 — Titular</div>
+        <h3>El título del proyecto es la primera pieza creativa que juzgan.</h3>
+        <p>No pongas "Proyecto Nocilla" ni "Campaña Domino's 2024". Eso no dice nada. El título de un proyecto es tu primera oportunidad de mostrar criterio. Puede ser el concepto, puede ser una pregunta, puede ser la tensión que resuelve la campaña. Lo que no puede ser es genérico. Un buen título invita a seguir leyendo. Uno malo hace que pases de largo.</p>
+      </div>
+      <div class="what-item reveal" style="transition-delay:.08s">
+        <div class="what-item-num">02 — Contexto</div>
+        <h3>Primero el problema. Luego la solución.</h3>
+        <p>Todo buen trabajo creativo nace de un problema real. Cuéntalo. ¿Cuál era el reto? ¿A quién iba dirigido? ¿Qué condicionaba la comunicación? No hace falta que sea largo: dos o tres frases que sitúen al lector y le den contexto para entender por qué tu idea tiene sentido. Sin contexto, una gran idea puede parecer caprichosa. Con contexto, una idea sencilla puede parecer brillante.</p>
+      </div>
+      <div class="what-item reveal" style="transition-delay:.16s">
+        <div class="what-item-num">03 — La idea</div>
+        <h3>Di qué es. Punto.</h3>
+        <p>Describe la idea que tuviste en un párrafo corto. Dos o tres líneas que expliquen el concepto con claridad. Sin rodeos, sin adjetivos de más. No es una memoria creativa ni un manifiesto de marca. Es solo lo justo para que, quien lo lea, entienda de qué va la idea antes de ver las piezas.</p>
+      </div>
+      <div class="what-item reveal" style="transition-delay:.24s">
+        <div class="what-item-num">04 — Piezas</div>
+        <h3>Las imágenes no ilustran. Argumentan.</h3>
+        <p>Cuida cada captura como si fuera una pieza en sí misma. Nada de screenshots borrosos, mockups genéricos de mala calidad o imágenes mal recortadas. Si tienes vídeo que explique tu idea, ponlo primero. Si crees que el proceso es interesante, muéstralo. Piezas gráficas, ejecuciones digitales, spots, etc... El material visual no es decoración del texto, es la prueba de que el trabajo existe y está bien hecho.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══ 03 — PLATAFORMAS ══ -->
+  <section class="section platforms-section" id="platforms">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <div class="section-title-wrap">
+        <h2>¿Donde pondrás tu portfolio?</h2>
+        <p>Haz clic en cada plataforma para ver qué te ofrece y qué te pide.</p>
+      </div>
+    </div>
+
+    <div class="platforms-intro">
+      <p>No hay una plataforma perfecta. Hay una plataforma perfecta para ti. Antes de ponerte a diseñar, conoce las opciones: qué te da cada una, qué te pide y hasta dónde te puede llevar.</p>
+    </div>
+
+    <div class="accordion">
+
+      <div class="acc-item">
+        <button class="acc-trigger" aria-expanded="false">
+          <div class="acc-left"><span class="acc-badge badge-free">Gratuita</span><span class="acc-name">Behance</span></div>
+          <span class="acc-url">behance.net</span>
+          <span class="acc-icon"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+        </button>
+        <div class="acc-body"><div class="acc-inner"><div class="acc-content">
+          <div class="acc-desc">La red de referencia del mundo creativo. Más que un portfolio, es una comunidad: subes proyectos, sigues a otros creativos, te inspiras y, sobre todo, te haces visible. Muchos directores creativos y recruiters la consultan a diario. Es el sitio donde quieres estar, aunque no sea el único donde estés.<a href="https://behance.net" target="_blank">Visitar Behance</a></div>
+          <div class="pros-block"><span class="pc-label">A favor</span><ul class="pc-list"><li>Completamente gratuita, sin límite de proyectos</li><li>Comunidad enorme con visibilidad real</li><li>Red social creativa: feedback y contactos</li><li>Integrada con el ecosistema Adobe</li></ul></div>
+          <div class="cons-block"><span class="pc-label">En contra</span><ul class="pc-list"><li>URL siempre behance.net/tunombre</li><li>Personalización visual casi nula</li><li>Tu trabajo convive con la competencia</li><li>No sustituye a un portfolio web propio</li></ul></div>
+        </div></div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" aria-expanded="false">
+          <div class="acc-left"><span class="acc-badge badge-free">Plan gratuito</span><span class="acc-name">Wix</span></div>
+          <span class="acc-url">wix.com</span>
+          <span class="acc-icon"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+        </button>
+        <div class="acc-body"><div class="acc-inner"><div class="acc-content">
+          <div class="acc-desc">El constructor de webs más popular del mundo, y con razón. Sin código, sin complicaciones. Arrastra, suelta y tienes una web. Ideal si es tu primera vez y quieres resultados rápidos con total libertad de diseño. Más de 900 plantillas, cientos de ellas pensadas para portfolios creativos.<a href="https://wix.com" target="_blank">Visitar Wix</a></div>
+          <div class="pros-block"><span class="pc-label">A favor</span><ul class="pc-list"><li>El más fácil para empezar desde cero</li><li>Gran variedad de plantillas creativas</li><li>Tienda de apps para ampliar funcionalidades</li><li>Herramientas SEO integradas</li></ul></div>
+          <div class="cons-block"><span class="pc-label">En contra</span><ul class="pc-list"><li>Plan gratuito con publicidad y subdominio de marca</li><li>Solo 500 MB de almacenamiento en free</li><li>Cambiar plantilla implica rehacer el site</li></ul></div>
+        </div></div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" aria-expanded="false">
+          <div class="acc-left"><span class="acc-badge badge-trial">Trial 14 días</span><span class="acc-name">Squarespace</span></div>
+          <span class="acc-url">squarespace.com</span>
+          <span class="acc-icon"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+        </button>
+        <div class="acc-body"><div class="acc-inner"><div class="acc-content">
+          <div class="acc-desc">El estándar de calidad visual en construcción de webs. Si quieres que tu portfolio transmita seriedad y criterio desde el primer segundo, Squarespace es difícil de superar. Diseños limpios, tipografías cuidadas, resultado profesional sin esfuerzo. El trial de 14 días te permite explorar sin comprometerte.<a href="https://squarespace.com" target="_blank">Visitar Squarespace</a></div>
+          <div class="pros-block"><span class="pc-label">A favor</span><ul class="pc-list"><li>El diseño más cohesionado del mercado</li><li>Almacenamiento ilimitado en todos los planes</li><li>Excelente optimización móvil automática</li><li>Referente en la industria creativa</li></ul></div>
+          <div class="cons-block"><span class="pc-label">En contra</span><ul class="pc-list"><li>Sin plan gratuito permanente</li><li>Menos flexibilidad de personalización</li><li>Planes de pago desde ~16 €/mes</li></ul></div>
+        </div></div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" aria-expanded="false">
+          <div class="acc-left"><span class="acc-badge badge-cc">Con Creative Cloud</span><span class="acc-name">Adobe Portfolio</span></div>
+          <span class="acc-url">portfolio.adobe.com</span>
+          <span class="acc-icon"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+        </button>
+        <div class="acc-body"><div class="acc-inner"><div class="acc-content">
+          <div class="acc-desc">Si ya usas Adobe CC, este es tu camino más corto hacia un portfolio publicado. Está incluido en tu suscripción, se monta en minutos y se sincroniza automáticamente con tus proyectos de Behance. No es el más personalizable, pero para empezar es difícil batirlo en relación coste-resultado.<a href="https://portfolio.adobe.com" target="_blank">Visitar Adobe Portfolio</a></div>
+          <div class="pros-block"><span class="pc-label">A favor</span><ul class="pc-list"><li>Sin coste extra si ya tienes Creative Cloud</li><li>Muy fácil de montar y mantener</li><li>Sincronización automática con Behance</li><li>Resultado limpio y profesional</li></ul></div>
+          <div class="cons-block"><span class="pc-label">En contra</span><ul class="pc-list"><li>Personalización muy limitada</li><li>Poco flexible para case studies complejos</li><li>Solo accesible con suscripción Adobe CC</li></ul></div>
+        </div></div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" aria-expanded="false">
+          <div class="acc-left"><span class="acc-badge badge-free">Plan gratuito</span><span class="acc-name">Canva</span></div>
+          <span class="acc-url">canva.com</span>
+          <span class="acc-icon"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+        </button>
+        <div class="acc-body"><div class="acc-inner"><div class="acc-content">
+          <div class="acc-desc">Sí, Canva también hace webs. Y si ya la usas para diseñar, la transición es natural. Funciona como un editor de presentaciones: intuitivo, visual y rápido. Ideal para un portfolio de una sola página con mucho impacto visual. No es la opción más escalable, pero para arrancar es una de las más accesibles.<a href="https://canva.com" target="_blank">Visitar Canva</a></div>
+          <div class="pros-block"><span class="pc-label">A favor</span><ul class="pc-list"><li>Curva de aprendizaje casi cero</li><li>Resultados llamativos en muy poco tiempo</li><li>Biblioteca enorme de recursos gráficos</li><li>Accesible y de bajo coste</li></ul></div>
+          <div class="cons-block"><span class="pc-label">En contra</span><ul class="pc-list"><li>Limitado para portfolios con contenido estructurado</li><li>SEO y personalización básicos</li><li>No escala bien a largo plazo</li><li>Subdominio de Canva en plan gratuito</li></ul></div>
+        </div></div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" aria-expanded="false">
+          <div class="acc-left"><span class="acc-badge badge-free">Plan gratuito</span><span class="acc-name">Webflow</span></div>
+          <span class="acc-url">webflow.com</span>
+          <span class="acc-icon"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+        </button>
+        <div class="acc-body"><div class="acc-inner"><div class="acc-content">
+          <div class="acc-desc">La herramienta que usan los diseñadores que quieren control total sin escribir una línea de código. Webflow te deja construir exactamente lo que tienes en la cabeza: animaciones, interacciones, layouts complejos. En la industria del diseño, un portfolio en Webflow ya dice algo de ti antes de que abran el primer proyecto.<a href="https://webflow.com" target="_blank">Visitar Webflow</a></div>
+          <div class="pros-block"><span class="pc-label">A favor</span><ul class="pc-list"><li>Máximo control creativo sin código</li><li>Portfolios visualmente muy diferenciales</li><li>Plan gratuito sin marcas de agua</li><li>Muy valorado en la industria del diseño</li></ul></div>
+          <div class="cons-block"><span class="pc-label">En contra</span><ul class="pc-list"><li>Curva de aprendizaje alta</li><li>Plan gratuito: solo 2 proyectos publicados</li><li>Puede ser abrumador para empezar</li><li>Planes de pago desde 14 €/mes</li></ul></div>
+        </div></div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" aria-expanded="false">
+          <div class="acc-left"><span class="acc-badge badge-free">Plan gratuito</span><span class="acc-name">Cargo</span></div>
+          <span class="acc-url">cargo.site</span>
+          <span class="acc-icon"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+        </button>
+        <div class="acc-body"><div class="acc-inner"><div class="acc-content">
+          <div class="acc-desc">La plataforma favorita de la escena del diseño más editorial y experimental. Si trabajas en dirección de arte, diseño gráfico o ilustración y quieres que tu portfolio tenga personalidad propia, Cargo es donde mirar. Aquí el diseño no es solo el contenedor: es parte del mensaje.<a href="https://cargo.site" target="_blank">Visitar Cargo</a></div>
+          <div class="pros-block"><span class="pc-label">A favor</span><ul class="pc-list"><li>Estética diferencial, muy reconocida en el sector</li><li>Comunidad de creativos de alto nivel</li><li>Plan gratuito funcional</li><li>Plantillas que inspiran y provocan</li></ul></div>
+          <div class="cons-block"><span class="pc-label">En contra</span><ul class="pc-list"><li>Menos intuitivo que otras opciones</li><li>Plan gratuito limitado en proyectos</li><li>Menos conocido fuera del diseño visual</li></ul></div>
+        </div></div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" aria-expanded="false">
+          <div class="acc-left"><span class="acc-badge badge-free">Plan gratuito</span><span class="acc-name">Readymag</span></div>
+          <span class="acc-url">readymag.com</span>
+          <span class="acc-icon"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+        </button>
+        <div class="acc-body"><div class="acc-inner"><div class="acc-content">
+          <div class="acc-desc">Una herramienta de diseño editorial online pensada para quienes quieren resultados sofisticados: animaciones de scroll, tipografía expresiva, layouts de revista. Si tienes un proyecto que quieres presentar como una pieza en sí misma, Readymag te da ese nivel. El plan gratuito permite publicar hasta 10 páginas.<a href="https://readymag.com" target="_blank">Visitar Readymag</a></div>
+          <div class="pros-block"><span class="pc-label">A favor</span><ul class="pc-list"><li>Resultados visualmente muy sofisticados</li><li>Libertad de layout casi total</li><li>Muy valorado en diseño editorial</li><li>Ideal para case studies visuales</li></ul></div>
+          <div class="cons-block"><span class="pc-label">En contra</span><ul class="pc-list"><li>Plantillas no responsive por defecto</li><li>Curva de aprendizaje notable</li><li>Planes de pago caros (desde 20 $/mes)</li></ul></div>
+        </div></div></div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ══ 04 — REFERENTES ══ -->
+  <section class="section" id="examples" style="padding-bottom:6rem;">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <div class="section-title-wrap">
+        <h2>Referentes cercanos</h2>
+      </div>
+    </div>
+
+    <div class="examples-intro">
+      <p>Algunos creativos que pasaron por aquí ya tienen su portfolio en marcha. Toma nota de cómo se presentan, qué plataforma eligieron y qué dice su trabajo antes de que abran la boca.</p>
+    </div>
+
+    <div class="examples-grid">
+      <a href="https://itzconde.com/" target="_blank" class="ex-card reveal">
+        <span class="ex-arrow">↗</span>
+        <span class="ex-platform">Wix</span>
+        <p class="ex-name">Itziar Conde</p>
+        <p class="ex-role">Art Director · doctortrece</p>
+      </a>
+      <a href="https://readymag.website/u3403165015/5607445/" target="_blank" class="ex-card reveal" style="transition-delay:.05s">
+        <span class="ex-arrow">↗</span>
+        <span class="ex-platform">Readymag</span>
+        <p class="ex-name">Juan García Crespo</p>
+        <p class="ex-role">Copywriter · Contrapunto BBDO</p>
+      </a>
+      <a href="https://ainacawe.com/" target="_blank" class="ex-card reveal" style="transition-delay:.1s">
+        <span class="ex-arrow">↗</span>
+        <span class="ex-platform">Framer</span>
+        <p class="ex-name">Aina Casamayor</p>
+        <p class="ex-role">Art Director · PS21 Barna</p>
+      </a>
+      <a href="https://readymag.website/u105289180/AlbertCasamayorPastor/" target="_blank" class="ex-card reveal" style="transition-delay:.15s">
+        <span class="ex-arrow">↗</span>
+        <span class="ex-platform">Readymag</span>
+        <p class="ex-name">Albert Casamayor</p>
+        <p class="ex-role">Art Director · Apple Tree</p>
+      </a>
+      <a href="https://ainabarredagonzalez.cargo.site/" target="_blank" class="ex-card reveal" style="transition-delay:.2s">
+        <span class="ex-arrow">↗</span>
+        <span class="ex-platform">Cargo</span>
+        <p class="ex-name">Aina Barreda</p>
+        <p class="ex-role">Art Director · DDB</p>
+      </a>
+      <a href="https://giorgiorenau.com/" target="_blank" class="ex-card reveal" style="transition-delay:.25s">
+        <span class="ex-arrow">↗</span>
+        <span class="ex-platform">Web propia</span>
+        <p class="ex-name">Giorgio Renau</p>
+        <p class="ex-role">Copywriter · BBDO Contrapunto</p>
+      </a>
+      <a href="https://joanaguix.cargo.site/" target="_blank" class="ex-card reveal" style="transition-delay:.3s">
+        <span class="ex-arrow">↗</span>
+        <span class="ex-platform">Cargo</span>
+        <p class="ex-name">Joana Guix</p>
+        <p class="ex-role">Art Director · ProximityBBDO</p>
+      </a>
+      <a href="https://albacarbonell.cargo.site" target="_blank" class="ex-card reveal" style="transition-delay:.35s">
+        <span class="ex-arrow">↗</span>
+        <span class="ex-platform">Cargo</span>
+        <p class="ex-name">Alba Carbonell</p>
+        <p class="ex-role">Art Director · VML</p>
+      </a>
+    </div>
+  </section>
+
+
+  <footer>
+    <span class="footer-txt">Barcelona School of Creativity</span>
+    <span class="footer-txt">Tu portfolio. Empieza aquí.</span>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.acc-trigger').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.acc-item');
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.acc-item').forEach(i => {
+          i.classList.remove('open');
+          i.querySelector('.acc-trigger').setAttribute('aria-expanded', 'false');
+        });
+        if (!isOpen) {
+          item.classList.add('open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.08 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
